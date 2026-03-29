@@ -76,6 +76,14 @@ constraints:
       require_approval_above_cents: 200
 ```
 
+## Setup
+
+```bash
+git clone git@github.com:iret77/paperclip-lobster.git
+cd paperclip-lobster
+./script/setup   # configures git hooks
+```
+
 ## Status
 
 **Early development** — this plugin is being designed and built. Contributions and feedback welcome.

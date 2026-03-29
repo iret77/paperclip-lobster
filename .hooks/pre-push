@@ -1,0 +1,21 @@
+#!/bin/bash
+# Prevents direct pushes to main/master.
+# Override: ALLOW_PUSH_TO_MAIN=1 git push origin main
+
+PROTECTED_BRANCHES="^(main|master)$"
+
+while read local_ref local_sha remote_ref remote_sha; do
+  remote_branch=$(echo "$remote_ref" | sed 's|refs/heads/||')
+  if echo "$remote_branch" | grep -qE "$PROTECTED_BRANCHES"; then
+    if [ "$ALLOW_PUSH_TO_MAIN" = "1" ]; then
+      echo "⚠ Override active — pushing to $remote_branch"
+      exit 0
+    fi
+    echo "🚫 Direct push to '$remote_branch' is blocked."
+    echo "   Create a feature branch and open a PR instead."
+    echo "   Override: ALLOW_PUSH_TO_MAIN=1 git push origin $remote_branch"
+    exit 1
+  fi
+done
+
+exit 0
